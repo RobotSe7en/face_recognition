@@ -75,15 +75,18 @@ def face_distance(face_encodings, face_to_compare):
     return np.linalg.norm(face_encodings - face_to_compare, axis=1)
 
 
-def load_image_file(file, mode='RGB'):
+def load_image_file(file, mode='RGB', pixel=None):
     """
     Loads an image file (.jpg, .png, etc) into a numpy array
 
     :param file: image file name or file object to load
     :param mode: format to convert the image to. Only 'RGB' (8-bit RGB, 3 channels) and 'L' (black and white) are supported.
+    :param pixel: Scale the image according to the given pixels 
     :return: image contents as numpy array
     """
     im = PIL.Image.open(file)
+    if pixel != None:
+        im.thumbnail((pixel, pixel))
     if mode:
         im = im.convert(mode)
     return np.array(im)
